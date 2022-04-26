@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import { Container } from 'react-bootstrap'
 
@@ -5,7 +6,10 @@ export default class Home extends Component {
 
 
     componentDidMount() {
-
+        axios.get('/home')
+            .then(res => {
+                console.log(res);
+            })
     }
     render() {
         return (

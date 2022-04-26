@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const session = require('express-session');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -14,11 +15,23 @@ db.once('open', () => {
 })
 
 
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.set('trust proxy', 1);
+
+//Session Store here
+app.use(session({
+    secret: 'tempsecret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 60000,
+    }
+}))
+//
 const reefRoutes = require('../routes/reefs');
 const userRoutes = require('../routes/users');
 const postRoutes = require('../routes/posts');
@@ -28,12 +41,15 @@ app.use('/user', userRoutes);
 app.use('/post', postRoutes);
 
 app.get('/home', (req, res) => {
+    console.log(req.session)
+    req.session.test = "HELLO";
+    console.log(req.session);
     res.send("Works!");
 })
 
 
 app.use((err, req, res, next) => {
-    console.log("Here are the errors: ",err._message);
+    console.log("Here are the errors: ", err._message);
     res.status(404).send("File not found");
 })
 

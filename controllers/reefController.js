@@ -3,6 +3,7 @@ const Post = require('../models/post');
 
 module.exports.index = async (req, res) => {
     const allPosts = await Post.find({});
+    console.log("Session data on the index: ", req.session)
     res.send(allPosts);
 }
 

@@ -12,3 +12,9 @@ module.exports.createUser = async (req, res) => {
 module.exports.profile = (req, res) => {
     res.send("Loading Profile Page");
 }
+
+module.exports.login = (req, res) => {
+    req.session.loggedIn = true;
+    console.log("Hit the login route");
+    res.send("Logged In!");
+}

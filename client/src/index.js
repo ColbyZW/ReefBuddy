@@ -11,7 +11,8 @@ import PostForm from './routes/postform'
 import PostIndex from './routes/postIndex';
 import DetailPost from './components/detailPost'
 import ViewPost from './routes/viewpost'
-import IndexBar from './components/indexbar.component';
+import IndexBar from './routes/indexbar';
+import Profile from './routes/profile';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -27,6 +28,7 @@ root.render(
           <Route path=":id" element={<DetailPost />} />
         </Route>
         <Route path="post" element={<PostForm />} />
+        <Route path="user" element={<Profile />}/>
         <Route path="*" element={<Home />} />
       </Route>
     </Routes>
