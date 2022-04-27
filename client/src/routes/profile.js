@@ -2,7 +2,7 @@ import axios from "axios";
 import { Component } from "react";
 import { Container } from "react-bootstrap";
 import ProfileBox from "../components/profileBox.component";
-import Register from "../components/register.component";
+import AuthScreen from "../components/authScreen.component";
 
 
 export default class Profile extends Component {
@@ -11,7 +11,7 @@ export default class Profile extends Component {
         this.state = {
             profileData: null
         }
-
+        this.setProfileData = this.setProfileData.bind(this);
     }
 
     componentDidMount() {
@@ -24,12 +24,16 @@ export default class Profile extends Component {
             })
     }
 
+    setProfileData(data) {
+        this.setState({profileData: data})
+    }
+
 
 
     render() {
         return (
             <Container>
-                {this.state.profileData ? <ProfileBox data={this.state.profileData}/> : <Register />}
+                {this.state.profileData ? <ProfileBox setData={this.setProfileData} data={this.state.profileData}/> : <AuthScreen setData={this.setProfileData}/>}
             </Container>
 
         )

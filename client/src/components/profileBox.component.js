@@ -1,5 +1,6 @@
+import axios from "axios";
 import { Component } from "react";
-import { Container, Card, ListGroup, ListGroupItem } from "react-bootstrap";
+import { Container, Card, ListGroup, ListGroupItem, Button } from "react-bootstrap";
 
 export default class ProfileBox extends Component {
     constructor(props) {
@@ -7,6 +8,7 @@ export default class ProfileBox extends Component {
         this.state = {
             data: null
         }
+        this.logout= this.logout.bind(this);
     }
 
     componentDidMount() {
@@ -14,12 +16,17 @@ export default class ProfileBox extends Component {
         console.log(this.props);
     }
 
+    logout() {
+        axios.get('/user/logout');
+        this.props.setData(null);
+    }
+
     render() {
         return (
             <Container className="mt-5">
                 <Card className="border-dark">
                     <Card.Body className="border-bottom p-4">
-                        <Card.Title>Username:{this.props.data.username}</Card.Title>
+                        <Card.Title>Username:{this.props.data.username}<Button className="float-end" onClick={()=>this.logout()}>Logout</Button></Card.Title>
                         <Card.Text>Bio/Description Goes Here</Card.Text>
                     </Card.Body>
                     <Card.Body className="border-bottom p-4">

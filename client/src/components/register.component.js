@@ -4,7 +4,7 @@ import { Container, Button, Form, Card, Alert } from "react-bootstrap"
 
 
 
-export default class Login extends Component {
+export default class Register extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -58,7 +58,7 @@ export default class Login extends Component {
                         console.log("Duplicate User Found!");
                         this.setState({ duplicate: true })
                     } else {
-                        console.log(res.data);
+                        this.props.setData(res.data);
                         this.setState({ confPassword: "", password: "", email: "", username: "", duplicate: false, success: true })
                     }
                 })
@@ -96,6 +96,7 @@ export default class Login extends Component {
                                 Submit
                             </Button>
                         </Form>
+                        <Button className="mt-3" onClick={()=>this.props.change()}>Have an account?  Login here.</Button>
                     </Card.Body>
                 </Card>
                 

@@ -12,21 +12,32 @@ module.exports.createUser = async (req, res) => {
             const user = new User(req.body);
             const savedUser = await user.save();
             req.session.uid = savedUser._id;
-            res.send(req.session);
+            res.send(savedUser);
         })
     } else {
         return res.send("500");
     }
 }
 
+
+module.exports.logout = async (req, res) => {
+    req.session.uid = null;
+    res.send(req.session);
+}
+
+
 module.exports.profile = async (req, res) => {
-    console.log(req.session);
     const user = await User.findById(req.session.uid);
     res.send(user);
 }
 
-module.exports.login = (req, res) => {
-    req.session.loggedIn = true;
-    console.log("Hit the login route");
-    res.send("Logged In!");
+module.exports.login = async (req, res) => {
+    const user = await User.find({email: req.body.email});
+    console.log("Here is the userdata: ", user);
+    bcrypt.compare(req.body.password, user[0].password, async function(err, result) {
+        if(result) {
+            req.session.uid = user[0]._id;
+            return res.send(user[0]);
+        }
+    })
 }

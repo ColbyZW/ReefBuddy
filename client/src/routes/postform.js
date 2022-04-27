@@ -43,7 +43,6 @@ export default class PostForm extends Component {
     handleSubmit(event) {
         axios.post('/post', {author: {username: this.state.name}, title: this.state.title, content: this.state.content})
             .then(res =>{ 
-                console.log("In the then block\n");
                 this.setState({success: true});
                 this.setState({showCard: true});
                 this.setState({message: res.data});
