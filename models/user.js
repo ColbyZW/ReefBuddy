@@ -2,38 +2,18 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
+    email: {
+        type: String,
+        required: true
+    },
     username: {
         type: String,
         required: true
     },
-    tanks: [
-        {
-            name: {
-                type: String,
-            },
-            salinity: {
-                type: Number
-            },
-            Mg: {
-                type: Number
-            },
-            Ph: {
-                type: Number
-            },
-            Nitrate: {
-                type: Number
-            },
-            Nitrite: {
-                type: Number
-            },
-            Phosphate: {
-                type: Number
-            },
-            Ammonia: {
-                type: Number
-            }
-        }
-    ],
+    password: {
+        type: String,
+        required: true
+    },
     following: [
         {
             type: Schema.Types.ObjectId,
