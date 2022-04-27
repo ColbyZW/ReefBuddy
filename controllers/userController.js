@@ -1,6 +1,5 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
-const { useInRouterContext } = require('react-router-dom');
 const saltrounds = 10;
 
 
@@ -20,8 +19,10 @@ module.exports.createUser = async (req, res) => {
     }
 }
 
-module.exports.profile = (req, res) => {
-    res.send("Loading Profile Page");
+module.exports.profile = async (req, res) => {
+    console.log(req.session);
+    const user = await User.findById(req.session.uid);
+    res.send(user);
 }
 
 module.exports.login = (req, res) => {

@@ -2,42 +2,36 @@ import axios from "axios";
 import { Component } from "react";
 import { Container } from "react-bootstrap";
 import ProfileBox from "../components/profileBox.component";
-import Login from "../components/login.component";
+import Register from "../components/register.component";
 
 
 export default class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loggedIn: false,
-            refresh: false
+            profileData: null
         }
-        
-        this.refresh = this.refresh.bind(this)
+
     }
 
     componentDidMount() {
         axios.get('/user')
             .then(res => {
-                if(!res.data) {
-                    this.setState({loggedIn: false});
-                } else {
-                    this.setState({loggedIn: true});
+                if (res.data) {
+                    console.log(res.data);
+                    this.setState({profileData: res.data});
                 }
             })
     }
 
-    refresh() {
-        this.setState({refresh: !true});
-    }
 
 
     render() {
-        return(
+        return (
             <Container>
-                {this.state.loggedIn ? <ProfileBox/> : <Login refresh={this.refresh}/>}
+                {this.state.profileData ? <ProfileBox data={this.state.profileData}/> : <Register />}
             </Container>
-            
+
         )
     }
 }

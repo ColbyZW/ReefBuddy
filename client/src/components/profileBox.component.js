@@ -5,8 +5,13 @@ export default class ProfileBox extends Component {
     constructor(props) {
         super(props)
         this.state = {
-
+            data: null
         }
+    }
+
+    componentDidMount() {
+        this.setState({data: this.props.data});
+        console.log(this.props);
     }
 
     render() {
@@ -14,7 +19,7 @@ export default class ProfileBox extends Component {
             <Container className="mt-5">
                 <Card className="border-dark">
                     <Card.Body className="border-bottom p-4">
-                        <Card.Title>Username: Goes Here</Card.Title>
+                        <Card.Title>Username:{this.props.data.username}</Card.Title>
                         <Card.Text>Bio/Description Goes Here</Card.Text>
                     </Card.Body>
                     <Card.Body className="border-bottom p-4">
