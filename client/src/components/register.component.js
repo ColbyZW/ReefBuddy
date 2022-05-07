@@ -55,7 +55,6 @@ export default class Register extends Component {
             axios.post('/user', { email: this.state.email, password: this.state.password, username: this.state.username })
                 .then(res => {
                     if (res.data === 500) {
-                        console.log("Duplicate User Found!");
                         this.setState({ duplicate: true })
                     } else {
                         this.props.setData(res.data);

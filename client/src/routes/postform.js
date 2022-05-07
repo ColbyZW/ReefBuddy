@@ -48,7 +48,6 @@ export default class PostForm extends Component {
                 this.setState({message: res.data});
             })
             .catch(err => {
-                console.log(err);
                 this.setState({showCard: true});
                 this.setState({errorMsg: "Validation failed, missing fields."});
                 this.setState({success: false});

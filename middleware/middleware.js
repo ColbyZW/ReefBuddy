@@ -1,11 +1,10 @@
 
 
-
 module.exports.isLoggedIn = (req, res, next) => {
     if(req.session.uid) {
         next();
     } else {
         console.log("NOT LOGGED IN")
-        return res.send(false);
+        return res.redirect('/home');
     }
 }

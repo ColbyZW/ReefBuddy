@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Component } from "react";
 import {Container, Card, Alert, Form, Button} from 'react-bootstrap'
-
+import { Navigate } from "react-router-dom";
 
 
 export default class Login extends Component {
@@ -11,7 +11,8 @@ export default class Login extends Component {
             email: "",
             password: "",
             success: true,
-            data: null
+            data: null,
+            loggedIn: false
         }
 
         this.getEmail = this.getEmail.bind(this);
@@ -23,9 +24,14 @@ export default class Login extends Component {
     handleSubmit(event) {
         axios.post('/user/login', {email: this.state.email, password: this.state.password})
             .then(res => {
-                if(res) {
+                if(res.data) {
                     console.log(res);
                     this.props.setData(res.data);
+                    this.setState({success: true});
+                    this.setState({loggedIn: true});
+
+                } else {
+                    this.setState({success: false});
                 }
             })
         event.preventDefault();
@@ -44,6 +50,7 @@ export default class Login extends Component {
     render() {
         return (
             <Container className="mt-4">
+                {this.state.loggedIn && <Navigate replace to="/user"/>}
                 {this.state.success ? <></> : <Alert className="my-1" onClose={() => this.setState({success: true})} variant="danger" dismissible>Email or Password incorrect!</Alert>}
                 <Card>
                     <Card.Body>
@@ -52,7 +59,6 @@ export default class Login extends Component {
                             <Form.Group className="mb-3" controlId="email">
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control onChange={this.getEmail} required value={this.state.email} type="email" placeholder="Enter email" />
-                                {this.state.duplicate ? <Alert className="py-1" variant="danger">Email already in use!</Alert> : <></>}
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="password">
                                 <Form.Label>Password</Form.Label>

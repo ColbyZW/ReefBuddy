@@ -1,41 +1,48 @@
-import { Component } from "react";
-import { Link} from "react-router-dom";
+import { Component, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Nav, Container, Navbar } from 'react-bootstrap'
 
 
-export default class TopNavBar extends Component {
-    render() {
-        return (
-            <Navbar sticky="top" bg="dark" variant="dark">
-            <Container className="mx-3">
-              <Link to="/home" className="text-decoration-none text-white">
-                <Navbar.Brand >
-                  ReefBuddy
-                </Navbar.Brand>
-              </Link>
-              <Nav className="me-auto">
+export default function TopNavBar(props) {
 
-                <Nav.Link className="nav-links">
-                  <Link className="text-decoration-none text-reset" to="/reefs">
-                    Browse Reefs
-                  </Link>
-                </Nav.Link>
+  useEffect(() => {
+    console.log(props);
+  })
 
-                <Nav.Link>
-                  <Link className="text-decoration-none text-reset" to="/post">
-                    Create A Post
-                  </Link>
-                </Nav.Link>
+  return (
+    <Navbar sticky="top" bg="dark" variant="dark">
+      <Container className="mx-3">
+        <Link to="/home" className="text-decoration-none text-white">
+          <Navbar.Brand >
+            ReefBuddy
+          </Navbar.Brand>
+        </Link>
+        <Nav className="me-auto">
 
-                <Nav.Link>
-                  <Link className="text-decoration-none text-reset" to="/user">
-                    Profile
-                  </Link>
-                </Nav.Link>
-              </Nav>
+          <Nav.Link className="nav-links">
+            <Link className="text-decoration-none text-reset" to="/reefs">
+              Browse Reefs
+            </Link>
+          </Nav.Link>
+          {props.login ? <Nav.Link>
+            <Link className="text-decoration-none text-reset" to="/post">
+              Create A Post
+            </Link>
+          </Nav.Link> : <></>}
+          
 
-            </Container>
-          </Navbar>
-        )
-    }
+          <Nav.Link>
+            {props.login ? <Link className="text-decoration-none text-reset" to="/user">
+              Profile
+            </Link> : <Link className="text-decoration-none text-reset" to ="/login">
+              Login
+            </Link> }
+            
+          </Nav.Link>
+        </Nav>
+
+      </Container>
+    </Navbar>
+  )
+
 }

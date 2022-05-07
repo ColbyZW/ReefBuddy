@@ -1,23 +1,37 @@
 import { Outlet } from "react-router-dom";
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import NavBar from "./components/navbar";
+import axios from "axios";
 
-class App extends Component {
-  render() {
+export default function App() {
+  const [login, setLogin] = useState(null);
+
+  useEffect(() => {
+    if(!login) {
+      axios.get('/user')
+        .then(res => {
+          if(res.data._id) {
+            setLogin(res.data);
+            console.log(res);
+          }
+        })
+    }
+  })
+
+
     return (
       <div>
         <div className="container-fluid">
           <div className="row">
-            <NavBar />
+            <NavBar login={login}/>
           </div>
         </div >
         <div>
-          <Outlet />
+          <Outlet context={[login, setLogin]}/>
         </div>
       </div>
 
     );
-  }
 }
 
-export default App;
+

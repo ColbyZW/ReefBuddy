@@ -33,11 +33,12 @@ module.exports.profile = async (req, res) => {
 
 module.exports.login = async (req, res) => {
     const user = await User.find({email: req.body.email});
-    console.log("Here is the userdata: ", user);
     bcrypt.compare(req.body.password, user[0].password, async function(err, result) {
         if(result) {
             req.session.uid = user[0]._id;
             return res.send(user[0]);
+        } else {
+            return res.send(null);
         }
     })
 }

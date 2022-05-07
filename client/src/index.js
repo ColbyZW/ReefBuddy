@@ -14,6 +14,8 @@ import ViewPost from './routes/viewpost'
 import IndexBar from './routes/indexbar';
 import Profile from './routes/profile';
 
+import AuthScreen from './components/authScreen.component';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
@@ -28,9 +30,8 @@ root.render(
           <Route path=":id" element={<DetailPost />} />
         </Route>
         <Route path="post" element={<PostForm />} />
-        <Route path="user" element={<Profile />}>
-          
-        </Route>
+        <Route path="user" element={<Profile />}/>
+        <Route path="login" element={<AuthScreen/>}/>
         <Route path="*" element={<Home />} />
       </Route>
     </Routes>

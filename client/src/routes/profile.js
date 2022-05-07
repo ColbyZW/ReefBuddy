@@ -1,41 +1,25 @@
 import axios from "axios";
-import { Component } from "react";
+import { Component, useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import ProfileBox from "../components/profileBox.component";
 import AuthScreen from "../components/authScreen.component";
+import { Navigate, useOutletContext } from "react-router-dom";
 
 
-export default class Profile extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            profileData: null
-        }
-        this.setProfileData = this.setProfileData.bind(this);
-    }
-
-    componentDidMount() {
-        axios.get('/user')
-            .then(res => {
-                if (res.data) {
-                    console.log(res.data);
-                    this.setState({profileData: res.data});
-                }
-            })
-    }
-
-    setProfileData(data) {
-        this.setState({profileData: data})
-    }
+export default function Profile() {
+    const [login, setLogin] = useOutletContext();
 
 
+    useEffect(() => {
+        console.log(login);
+    })
 
-    render() {
-        return (
-            <Container>
-                {this.state.profileData ? <ProfileBox setData={this.setProfileData} data={this.state.profileData}/> : <AuthScreen setData={this.setProfileData}/>}
-            </Container>
+    return (
+        <Container>
+            {!login && <Navigate replace to="/login"/>}
+            {login && <ProfileBox setData={login} data={login} logout={setLogin} />}
+        </Container>
 
-        )
-    }
+    )
+
 }
