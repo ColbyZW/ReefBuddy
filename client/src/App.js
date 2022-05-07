@@ -12,7 +12,6 @@ export default function App() {
         .then(res => {
           if(res.data._id) {
             setLogin(res.data);
-            console.log(res);
           }
         })
     }

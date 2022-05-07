@@ -3,13 +3,6 @@ import { Component, useEffect, useState } from "react";
 import { Container, Card, ListGroup, ListGroupItem, Button } from "react-bootstrap";
 
 export default function ProfileBox(props) {
-    // constructor(props) {
-    //     super(props)
-    //     this.state = {
-    //         data: null
-    //     }
-    //     this.logout= this.logout.bind(this);
-    // }
     const [data, setData] = useState(null);
 
 

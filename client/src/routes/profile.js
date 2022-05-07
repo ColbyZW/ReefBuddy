@@ -10,10 +10,6 @@ export default function Profile() {
     const [login, setLogin] = useOutletContext();
 
 
-    useEffect(() => {
-        console.log(login);
-    })
-
     return (
         <Container>
             {!login && <Navigate replace to="/login"/>}

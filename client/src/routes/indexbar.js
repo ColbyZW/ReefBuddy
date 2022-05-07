@@ -20,14 +20,15 @@ export default class IndexBar extends Component {
     componentDidMount() {
         axios.get('/reefs')
             .then(res => {
-                this.setState({posts: res.data});
-                this.setState({numPages: res.data.length})
+                this.setState({ posts: res.data });
+                this.setState({ numPages: res.data.length })
+                console.log(this.state.numPages);
             })
             .catch(err => {
                 console.log(err);
             })
 
-        
+
     }
 
 
@@ -36,12 +37,13 @@ export default class IndexBar extends Component {
             <Container className="mt-3 px-0">
                 <Container className="justify-content-right py-2 border border-dark border-1">
                     {this.state.posts ? this.state.posts.map((post, index) => {
-                        if(index % 8 == 0) {
-                        return <Link to={`${(index/8)+1}`}><Button className="mx-1">{(index/8)+1}</Button></Link>
+                        if (index % 8 == 0) {
+                            return <Link to={`${(index / 8) + 1}`}><Button className="mx-1">{(index / 8) + 1}</Button></Link>
                         }
                     }) : <></>}
+                    {this.state.numPages === 0 ?  <Link to="1"><Button className="mx-1">1</Button></Link> : <></>}
                 </Container>
-                <Outlet/>
+                <Outlet />
             </Container>
 
         )

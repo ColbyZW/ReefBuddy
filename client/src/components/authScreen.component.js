@@ -7,22 +7,8 @@ import { useOutletContext } from "react-router-dom";
 
 
 export default function AuthScreen(props) {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         login: true
-    //     }
-    //     this.changeScreen = this.changeScreen.bind(this);
-    // }
     const [login, setLogin] = useOutletContext();
     const [screen, setScreen] = useState(true);
-    // componentDidMount() {
-    //     console.log(this.props);
-    // }
-
-    // changeScreen() {
-    //     this.setState({login: !this.state.login});
-    // }
 
 
     return (

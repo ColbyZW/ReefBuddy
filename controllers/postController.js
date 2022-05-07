@@ -4,7 +4,10 @@ const User = require('../models/user');
 module.exports.createPost = async (req, res) => {
     const post = new Post(req.body);
     await post.save();
-    res.send("Successfully made a post!");
+    res.send({
+        msg: "Successfully made post",
+        postId: post._id
+    });
 }
 
 module.exports.getPostInfo = async (req, res) => {
