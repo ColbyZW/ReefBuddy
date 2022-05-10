@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Component, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Card, ListGroup, ListGroupItem, Button } from "react-bootstrap";
 
 export default function ProfileBox(props) {

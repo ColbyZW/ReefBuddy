@@ -1,18 +1,12 @@
-import axios from 'axios';
-import React, { Component } from 'react';
+
+import React from 'react';
 import { Container } from 'react-bootstrap'
 import { useOutletContext } from 'react-router-dom';
 
 export default function Home() {
     const [login, setLogin] = useOutletContext();
 
-    // componentDidMount() {
-    //     axios.get('/home')
-    //         .then(res => {
-    //             console.log(res);
-    //         })
-    //     console.log(this.props);
-    // }
+
 
     return (
         <Container className="home-background d-flex justify-content-center " fluid >

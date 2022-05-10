@@ -1,106 +1,92 @@
 import axios from "axios"
-import { Component } from "react"
+import { useState, useEffect } from "react"
 import { Container, Button, Form, Card, Alert } from "react-bootstrap"
+import { Navigate, useOutletContext } from "react-router-dom";
 
 
 
-export default class Register extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            email: "",
-            password: "",
-            username: "",
-            passwordMatch: true,
-            duplicate: false,
-            success: false
-        }
-        this.getEmail = this.getEmail.bind(this);
-        this.getPassword = this.getPassword.bind(this);
-        this.getConfPassword = this.getConfPassword.bind(this);
-        this.getUsername = this.getUsername.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+export default function Register(props) {
 
-    getEmail(event) {
-        this.setState({ email: event.target.value });
-    }
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confPass, setConfPass] = useState("");
+    const [username, setUsername] = useState("");
+    const [match, setMatch] = useState(true);
+    const [duplicate, setDuplicate] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [login, setLogin] = useOutletContext();
+    
 
-    getPassword(event) {
-        this.setState({ password: event.target.value });
-        if (event.target.value != this.state.confPassword) {
-            this.setState({ passwordMatch: false });
+    function getConfPassword(event) {
+        setConfPass(event.target.value);
+        if (password != event.target.value) {
+            setMatch(false);
         } else {
-            this.setState({ passwordMatch: true })
+            setMatch(true);
         }
     }
 
-    getConfPassword(event) {
-        this.setState({ confPassword: event.target.value })
-        if (this.state.password != event.target.value) {
-            this.setState({ passwordMatch: false });
-        } else {
-            this.setState({ passwordMatch: true });
-        }
-    }
 
-    getUsername(event) {
-        this.setState({ username: event.target.value })
-    }
 
-    handleSubmit(event) {
+    function handleSubmit(event) {
         const form = event.currentTarget;
         console.log(form);
-        if (this.state.passwordMatch) {
-            axios.post('/user', { email: this.state.email, password: this.state.password, username: this.state.username })
+        if (match) {
+            axios.post('/user', { email: email, password: password, username: username })
                 .then(res => {
                     if (res.data === 500) {
-                        this.setState({ duplicate: true })
+                        setDuplicate(true);
                     } else {
-                        this.props.setData(res.data);
-                        this.setState({ confPassword: "", password: "", email: "", username: "", duplicate: false, success: true })
+                        setPassword("");
+                        setEmail("");
+                        setUsername("");
+                        setConfPass("");
+                        setDuplicate(false);
+                        setSuccess(true);
+                        setTimeout(() => {props.setData(res.data)}, 1200);
                     }
                 })
         }
         event.preventDefault();
     }
 
-    render() {
+
         return (
             <Container className="mt-4">
-                {this.state.success ? <Alert className="my-1" onClose={() => this.setState({success: false})} variant="success" dismissible>Successfully Created Account!</Alert> : <></>}
+                {login && <Navigate replace to="/user"/>}
+                {success ? <Alert className="my-1" onClose={() => setSuccess(false)} variant="success" dismissible>Successfully Created Account!</Alert> : <></>}
                 <Card>
                     <Card.Body>
                         <Card.Title>Register</Card.Title>
-                        <Form onSubmit={this.handleSubmit} >
+                        <Form onSubmit={handleSubmit} >
                             <Form.Group className="mb-3" controlId="email">
                                 <Form.Label>Email address</Form.Label>
-                                <Form.Control onChange={this.getEmail} required value={this.state.email} type="email" placeholder="Enter email" />
-                                {this.state.duplicate ? <Alert className="py-1" variant="danger">Email already in use!</Alert> : <></>}
+                                <Form.Control onChange={e=>setEmail(e.target.value)} required value={email} type="email" placeholder="Enter email" />
+                                {duplicate ? <Alert className="py-1" variant="danger">Email already in use!</Alert> : <></>}
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="username">
                                 <Form.Label>Username</Form.Label>
-                                <Form.Control onChange={this.getUsername} required value={this.state.username} type="text" placeholder="Enter Username" />
+                                <Form.Control onChange={e=>setUsername(e.target.value)} required value={username} type="text" placeholder="Enter Username" />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="password">
                                 <Form.Label>Password</Form.Label>
-                                <Form.Control onChange={this.getPassword} required value={this.state.password} type="password" placeholder="Password" />
+                                <Form.Control onChange={e=>setPassword(e.target.value)} required value={password} type="password" placeholder="Password" />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="confirmPassword" >
                                 <Form.Label>Confirm Password</Form.Label>
-                                <Form.Control onChange={this.getConfPassword} required pattern={this.state.password} value={this.state.confPassword} type="password" placeholder="Confirm Password" />
-                                {this.state.passwordMatch ? <></> : <Alert className="py-1" variant="danger">Passwords must match!</Alert>}
+                                <Form.Control onChange={e=>getConfPassword(e)} required pattern={password} value={confPass} type="password" placeholder="Confirm Password" />
+                                {match ? <></> : <Alert className="py-1" variant="danger">Passwords must match!</Alert>}
                             </Form.Group>
                             <Button variant="primary" type="submit">
                                 Submit
                             </Button>
                         </Form>
-                        <Button className="mt-3" onClick={()=>this.props.change()}>Have an account?  Login here.</Button>
+                        <Button className="mt-3" onClick={()=>props.change(true)}>Have an account?  Login here.</Button>
                     </Card.Body>
                 </Card>
                 
             </Container>
         )
-    }
+    
 
 }

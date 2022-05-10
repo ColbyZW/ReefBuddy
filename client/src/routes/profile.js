@@ -1,8 +1,8 @@
-import axios from "axios";
-import { Component, useEffect, useState } from "react";
+
+import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import ProfileBox from "../components/profileBox.component";
-import AuthScreen from "../components/authScreen.component";
+
 import { Navigate, useOutletContext } from "react-router-dom";
 
 

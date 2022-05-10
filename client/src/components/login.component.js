@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Component, useState } from "react";
+import { useState } from "react";
 import {Container, Card, Alert, Form, Button} from 'react-bootstrap'
 import { Navigate, useOutletContext } from "react-router-dom";
 
@@ -15,8 +15,8 @@ export default function Login(props) {
         axios.post('/user/login', {email: email, password: password})
             .then(res => {
                 if(res.data) {
-                    props.setData(res.data);
                     setSuccess(true);
+                    setTimeout(() => {props.setData(res.data)}, 1200);
                 } else {
                     setSuccess(false);
 
@@ -50,7 +50,7 @@ export default function Login(props) {
                                 Submit
                             </Button>
                         </Form>
-                        <Button className="mt-3" onClick={()=>props.change()}>Need to make an account?  Register here.</Button>
+                        <Button className="mt-3" onClick={()=>props.change(false)}>Need to make an account?  Register here.</Button>
                     </Card.Body>
                 </Card>
             </Container>
